@@ -38,6 +38,8 @@ function getInnerText(elementId, value) {
 // gameOver
 
 function gameOver() {
+
+
     show('play-ground-section');
     hide('final-score');
 
@@ -49,6 +51,7 @@ function gameOver() {
     const lastLetter = document.getElementById('display-number').innerText;
     // console.log('last letter:', lastLetter.innerText);
     removeBgColor(lastLetter);
+    isGamePlay = false;
 
 
 }
@@ -57,6 +60,7 @@ function gameOver() {
 // start game 
 
 function startGame() {
+    isGamePlay = true;
     const alphabetString = 'abcdefghijklmnopqrstuvwxyz';
     const alphabets = alphabetString.split('');
 
@@ -78,9 +82,9 @@ function startGame() {
 
 
 // keyup event handle
-
+let isGamePlay = false;
 function keyUpButton(event) {
-
+    if (isGamePlay == false) return;
     const playerPressed = event.key;
 
     // exit from game
@@ -97,6 +101,9 @@ function keyUpButton(event) {
 
 
     if (expectedAlphabet === playerPressed) {
+        const audio = new Audio('./audio/success.mp3');
+        audio.play();
+
 
         const updateScore = getTextbyId('score');
         const setValue = updateScore + 1;
@@ -108,6 +115,8 @@ function keyUpButton(event) {
         // console.log(updateScore);
 
     } else {
+        const audio = new Audio('./audio/wrong.mp3');
+        audio.play();
         const reduceLife = getTextbyId('life');
         const setLifeValue = reduceLife - 1;
         getInnerText('life', setLifeValue);
